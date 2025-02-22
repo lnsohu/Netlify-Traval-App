@@ -1,11 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AdminPage from './pages/AdminPage';
+import DisplayPage from './pages/DisplayPage';
 
 function App() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Hello World!</h1>
-      <p>This is a simple React app deployed on Netlify.</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/" element={<DisplayPage />} />
+      </Routes>
+    </Router>
   );
 }
 
