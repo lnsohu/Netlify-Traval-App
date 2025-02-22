@@ -1,0 +1,154 @@
+/* 页面整体样式 */
+.display-page {
+  max-width: 100%; /* 去掉固定宽度，适应手机屏幕 */
+  margin: 0 auto;
+  padding: 10px; /* 减少内边距 */
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式 */
+.display-page h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px; /* 减少标题与内容的间距 */
+  font-size: 1.5rem; /* 调整标题字体大小 */
+}
+
+/* 信息区块样式 */
+.info-section {
+  margin-bottom: 15px; /* 减少区块之间的间距 */
+  padding: 10px; /* 减少内边距 */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h2 {
+  color: #555;
+  margin-bottom: 8px; /* 减少标题与内容的间距 */
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  font-size: 1.2rem; /* 调整区块标题字体大小 */
+}
+
+/* 信息组样式 */
+.info-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+  gap: 10px; /* 减少信息项之间的间距 */
+}
+
+/* 信息项样式 */
+.info-item {
+  width: 100%; /* 让信息项占满宽度 */
+}
+
+.info-item label {
+  display: block;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
+  font-size: 0.9rem; /* 调整标签字体大小 */
+}
+
+.info-item p {
+  margin: 0;
+  padding: 8px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  color: #333;
+  font-size: 0.9rem; /* 调整内容字体大小 */
+}
+
+/* 联系人信息和备注栏样式 */
+.info-section:nth-last-child(2) .info-group,
+.info-section:last-child .info-group {
+  display: block; /* 改为单列布局 */
+}
+
+.info-section:nth-last-child(2) .info-item,
+.info-section:last-child .info-item {
+  width: 100%; /* 占满整个宽度 */
+  grid-column: 1 / -1; /* 确保占满网格的两列 */
+}
+
+.info-section:nth-last-child(2) .info-item p,
+.info-section:last-child .info-item p {
+  width: 100%; /* 让内容占满宽度 */
+  box-sizing: border-box; /* 确保 padding 不会影响宽度 */
+}
+
+/* 加载状态样式 */
+.loading {
+  text-align: center;
+  font-size: 1rem; /* 调整加载状态字体大小 */
+  color: #666;
+  margin-top: 30px; /* 减少顶部间距 */
+}
+
+/* 表格样式 */
+.travel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px; /* 减少表格与上方内容的间距 */
+}
+
+.travel-table th,
+.travel-table td {
+  border: 1px solid #ddd;
+  padding: 8px; /* 减少单元格内边距 */
+  text-align: left;
+  font-size: 0.9rem; /* 调整表格字体大小 */
+}
+
+.travel-table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.travel-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* 隔行变色 */
+}
+
+.travel-table tr:hover {
+  background-color: #f1f1f1; /* 悬停效果 */
+}
+
+.travel-table td {
+  color: #555;
+}
+
+/* 查询文本框样式 */
+.filter-group {
+  display: flex;
+  flex-direction: column; /* 改为垂直排列 */
+  gap: 10px; /* 输入框之间的间距 */
+  margin-bottom: 15px; /* 查询框与表格之间的间距 */
+}
+
+.filter-group input {
+  width: 100%; /* 让输入框占满宽度 */
+  padding: 8px; /* 减少内边距 */
+  border: 1px solid #ddd; /* 边框 */
+  border-radius: 4px; /* 圆角 */
+  font-size: 0.9rem; /* 调整输入框字体大小 */
+}
+
+.filter-group button {
+  width: 100%; /* 让按钮占满宽度 */
+  padding: 8px; /* 减少内边距 */
+  background-color: #007bff; /* 背景色 */
+  color: white; /* 字体颜色 */
+  border: none; /* 无边框 */
+  border-radius: 4px; /* 圆角 */
+  cursor: pointer; /* 鼠标悬停时显示手形光标 */
+  font-size: 0.9rem; /* 调整按钮字体大小 */
+}
+
+.filter-group button:hover {
+  background-color: #0056b3; /* 悬停时背景色 */
+}
