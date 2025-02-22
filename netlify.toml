@@ -1,4 +1,4 @@
 [build]
   base = "/"
-  publish = "public"
-  command = "cp -r src public/src"
+  publish = "build"
+  command = "npm run build"
