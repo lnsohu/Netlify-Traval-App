@@ -1,3 +1,4 @@
 [build]
-  publish = ".next"
-  command = "npm run build"
+  base = "/"
+  publish = "public"
+  command = "cp -r src public/src"
