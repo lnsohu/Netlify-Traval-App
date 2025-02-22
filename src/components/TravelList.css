@@ -1,0 +1,99 @@
+/* 查询文本框样式 */
+.filter-group {
+  display: flex;
+  flex-direction: column; /* 改为垂直排列 */
+  gap: 10px; /* 输入框之间的间距 */
+  margin-bottom: 20px;
+}
+
+.filter-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; /* 让输入框占满宽度 */
+}
+
+.filter-group button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* 让按钮占满宽度 */
+}
+
+.filter-group button:hover {
+  background-color: #0056b3;
+}
+
+/* 表格样式 */
+.travel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem; /* 调整表格字体大小 */
+}
+
+.travel-table th,
+.travel-table td {
+  padding: 8px; /* 减少单元格内边距 */
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.travel-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.travel-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* 手机竖屏优化 */
+@media (max-width: 600px) {
+  .travel-table {
+    display: block;
+    overflow-x: auto; /* 允许水平滚动 */
+  }
+
+  .travel-table thead,
+  .travel-table tbody,
+  .travel-table th,
+  .travel-table td,
+  .travel-table tr {
+    display: block; /* 改为块级元素 */
+  }
+
+  .travel-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px; /* 隐藏表头 */
+  }
+
+  .travel-table tr {
+    border: 1px solid #ddd;
+    margin-bottom: 10px; /* 增加行间距 */
+  }
+
+  .travel-table td {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    padding-left: 50%; /* 为标签留出空间 */
+    text-align: right; /* 内容右对齐 */
+  }
+
+  .travel-table td::before {
+    content: attr(data-label); /* 使用 data-label 属性作为标签 */
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+  }
+}
