@@ -35,7 +35,7 @@ function AdminPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/.netlify/functions/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -60,7 +60,7 @@ function AdminPage() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const url = isEditing ? `/api/travels?id=${currentTravelId}` : '/api/travels'; // 使用查询参数
+    const url = isEditing ? `//.netlify/functions/travels?id=${currentTravelId}` : '//.netlify/functions/travels'; // 使用查询参数
     const method = isEditing ? 'PUT' : 'POST'; // 根据是新增还是修改选择请求方式
     const response = await fetch(url, {
       method: method,
@@ -106,7 +106,7 @@ function AdminPage() {
   console.log(`AdminPage Fetching travel info for ID: ${travelId}`); // Debug log
   // alert(`当前差旅 ID: ${travelId}`); // 调试信息
   try {
-    const response = await fetch(`/api/travels?id=${travelId}`, { // 使用查询参数
+    const response = await fetch(`//.netlify/functions/travels?id=${travelId}`, { // 使用查询参数
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
