@@ -7,11 +7,13 @@ const supabaseKey = process.env.supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY; // �
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase environment variables are missing');
 }
-console.log('supabase_db_SUPABASE_URL:', supabase_db_SUPABASE_URL);
-console.log('supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEYL:', supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY);
+// 输出环境变量以进行调试
+console.log('supabase_db_SUPABASE_URL:', supabaseUrl);
+console.log('supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey);
+
 // 初始化 Supabase 客户端
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default supabase; // without debugging
+export default supabase; 
 
 
