@@ -1,4 +1,5 @@
-import supabase from './db'; // 导入 Supabase 客户端
+// import supabase from './db'; // 默认方式导入 Supabase 客户端
+import { getTravels } from './db'; // 使用命名导入
 
 export default async function handler(req, res) {
   const { method } = req;
