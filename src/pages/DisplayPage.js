@@ -8,7 +8,7 @@ function DisplayPage() {
   // 获取最新一条差旅信息
   const fetchTravels = async () => {
     try {
-      const response = await fetch('/api/travels', {
+      const response = await fetch('/netlify/functions/travels', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
