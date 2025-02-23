@@ -13,10 +13,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 // 输出环境变量以进行调试
 console.log('supabase_db_SUPABASE_URL:', supabaseUrl);
-console.log('supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey);
+console.log('supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseAnonKey);
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export default supabase; // origial export default mode
-
-
+export default supabase; // 使用默认导出
