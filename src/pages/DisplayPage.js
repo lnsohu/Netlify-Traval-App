@@ -8,6 +8,13 @@ function DisplayPage() {
   // 获取最新一条差旅信息
   const fetchTravels = async () => {
     try {
+
+      const debugSupabaseUrl = process.env.supabase_db_SUPABASE_URL;
+      const debugSupabaseAnonKey = process.env.supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
+      console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
+      
       const response = await fetch('/.netlify/functions/travels', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
