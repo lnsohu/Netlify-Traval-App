@@ -9,8 +9,8 @@ function DisplayPage() {
   const fetchTravels = async () => {
     try {
 
-      const debugSupabaseUrl = process.env.SUPABASE_DATABASE_URL;
-      const debugSupabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+      const supabaseUrl = process.env.supabase_db_SUPABASE_URL;
+      const supabaseAnonKey = process.env.supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
       console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
       console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
