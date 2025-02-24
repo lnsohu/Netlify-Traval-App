@@ -1,5 +1,12 @@
 console.log('[debug]: go into travel.js');
-import supabase from './db'; // 默认方式导入 Supabase 客户端
+const debugSupabaseUrl = process.env.REACT_APP_supabase_db_SUPABASE_URL;
+const debugSupabaseAnonKey = process.env.REACT_APP_supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
+console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
+
+
+// import supabase from './db'; // 默认方式导入 Supabase 客户端
 // import { getTravels } from './db'; // 使用命名导入
 
 export default async function handler(req, res) {
