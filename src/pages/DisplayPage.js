@@ -14,9 +14,9 @@ function DisplayPage() {
 
       console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
       console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
-
+      const response;
       try{
-        const response = await fetch('/.netlify/functions/travels', {
+        response= await fetch('/.netlify/functions/travels', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         });
