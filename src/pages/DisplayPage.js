@@ -2,44 +2,14 @@ import React, { useEffect, useState } from 'react';
 import './DisplayPage.css';
 import TravelList from '../components/TravelList'; // 导入 TravelList 组件
 
-// [Debug]: Test db connection
-import supabase from '../netlify/functions/db'; // 导入 Supabase 客户端
+// 导入 Supabase 客户端和测试连接函数
+import supabase, { testSupabaseConnection } from '../netlify/functions/db';
 
 function DisplayPage() {
   const [travel, setTravel] = useState(null);
 
-  // [Debug Start] : 
-  // 测试数据库连接
-  const testSupabaseConnection = async () => {
-    try {
-      console.log('[debug]: Testing Supabase connection...');
-
-      // 查询 travels 表的结构（假设表中有数据）
-      const { data, error } = await supabase
-        .from('travels')
-        .select('*')
-        .limit(1); // 只查询一条记录，避免返回过多数据
-
-      if (error) {
-        console.error('Error fetching table structure:', error);
-        return false; // 返回 false 表示连接失败
-      }
-
-      if (data && data.length > 0) {
-        console.log('Travels table structure (first row):', data[0]);
-        return true; // 返回 true 表示连接成功
-      } else {
-        console.log('Travels table is empty.');
-        return true; // 返回 true 表示连接成功，但表为空
-      }
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      return false; // 返回 false 表示连接失败
-    }
-  };
-
   // 获取最新一条差旅信息
-  const testFetchTravels = async () => {
+  const fetchTravels = async () => {
     try {
       // 测试数据库连接
       const isConnected = await testSupabaseConnection();
@@ -47,32 +17,25 @@ function DisplayPage() {
         console.error('Database connection failed');
         return;
       }
-  // [Debug End]: Test db connection
-
-  
-  // 获取最新一条差旅信息
-  const fetchTravels = async () => {
-    try {
 
       const debugSupabaseUrl = process.env.REACT_APP_supabase_db_SUPABASE_URL;
       const debugSupabaseAnonKey = process.env.REACT_APP_supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-      console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
-      console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
-      
+      console.log('env debugSupabaseUrl: ', debugSupabaseUrl);
+      console.log('env debugSupabaseAnonKey: ', debugSupabaseAnonKey);
+
       let response;
-      try{
-        response= await fetch('/.netlify/functions/travels', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+      try {
+        response = await fetch('/.netlify/functions/travels', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
         });
-        }
-      catch (error) {
-      console.error('[debug] fetch netlify/functions/travels:', error);
-        
-    }
-      console.log('[debug] response is: ',response);
-      
+      } catch (error) {
+        console.error('[debug] fetch netlify/functions/travels:', error);
+      }
+
+      console.log('[debug] response is: ', response);
+
       if (response.ok) {
         const data = await response.json();
         const sortedTravels = data.sort((a, b) => new Date(b.outbound_flight_date) - new Date(a.outbound_flight_date));
