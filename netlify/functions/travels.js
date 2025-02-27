@@ -23,15 +23,20 @@ export default async function handler(req, res) {
       if(req.query)
       {            
         console.log('[Debug]: req.query[0]: ', req.query[0]);
-        console.log('[Debug]: req.query.id: ', req.query.id);
+        // console.log('[Debug]: req.query.id: ', req.query.id);
+      }
+      else
+      {
+        console.error('[Debug Error]: ]req.query is null');
       }
     }
     else
     {
       console.error('[Debug Error]: ]req is null');
     }
-      
-    const id = req.query.id || req.query[0]; // 支持路径参数和查询参数
+
+    const id = req.query[0]; // Debug: only get 0, 支持路径参数和查询参数
+    // const id = req.query.id || req.query[0]; // Vercel version: 支持路径参数和查询参数
     console.log(`Received ID for query: ${id}`); // 调试信息
 
     if (id) {
