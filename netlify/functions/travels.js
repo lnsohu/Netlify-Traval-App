@@ -14,6 +14,18 @@ export default async function handler(req, res) {
 
   if (method === 'GET') {
     // 从路径参数中获取 ID
+
+    console.log('[Debug]: begin to watch req');
+    if(req)
+    {
+      console.log('[Debug]: req.query[0]: ', req.query[0]);
+      console.log('[Debug]: req.query.id: ', req.query.id);
+    }
+    else
+    {
+      console.error('[Debug Error]: ]req is null');
+    }
+      
     const id = req.query.id || req.query[0]; // 支持路径参数和查询参数
     console.log(`Received ID for query: ${id}`); // 调试信息
 
