@@ -14,11 +14,19 @@ function DisplayPage() {
 
       console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
       console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
-      
-      const response = await fetch('/.netlify/functions/travels', {
+
+      try{
+        const response = await fetch('/.netlify/functions/travels', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-      });
+        });
+        }
+      catch (error) {
+      console.error('[debug] fetch netlify/functions/travels:', error);
+        
+    }
+      console.log('[debug] response is: ',response);
+      
       if (response.ok) {
         const data = await response.json();
         const sortedTravels = data.sort((a, b) => new Date(b.outbound_flight_date) - new Date(a.outbound_flight_date));
