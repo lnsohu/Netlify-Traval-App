@@ -18,8 +18,13 @@ export default async function handler(req, res) {
     console.log('[Debug]: begin to watch req');
     if(req)
     {
-      console.log('[Debug]: req.query[0]: ', req.query[0]);
-      console.log('[Debug]: req.query.id: ', req.query.id);
+      console.log('[Debug]: watch req.query');
+
+      if(req.query)
+      {            
+        console.log('[Debug]: req.query[0]: ', req.query[0]);
+        console.log('[Debug]: req.query.id: ', req.query.id);
+      }
     }
     else
     {
