@@ -3,7 +3,7 @@ import './DisplayPage.css';
 import TravelList from '../components/TravelList'; // 导入 TravelList 组件
 
 // 导入 Supabase 客户端和测试连接函数
-import supabase, { testSupabaseConnection } from '../netlify/functions/db';
+import supabase, { testSupabaseConnection } from '../../netlify/functions/db';
 
 function DisplayPage() {
   const [travel, setTravel] = useState(null);
