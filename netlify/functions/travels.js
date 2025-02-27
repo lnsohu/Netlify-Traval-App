@@ -1,7 +1,8 @@
 console.log('[debug]: go into travel.js');
-// import supabase from './db.js'; // 默认方式导入 Supabase 客户端
+import supabase from './db.js'; // 默认方式导入 Supabase 客户端
+console.log('[debug]: imported db.js');
 
-const { supabase } = require('./db');
+// const { supabase } = require('./db');
 
 exports.handler = async (event, context) => {
     console.log('[Debug] event:', event);
