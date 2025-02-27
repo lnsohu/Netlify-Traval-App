@@ -1,129 +1,110 @@
 console.log('[debug]: go into travel.js');
-const debugSupabaseUrl = process.env.REACT_APP_supabase_db_SUPABASE_URL;
-const debugSupabaseAnonKey = process.env.REACT_APP_supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// import supabase from './db.js'; // 默认方式导入 Supabase 客户端
 
-console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
-console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
+const { supabase } = require('./db');
 
+exports.handler = async (event, context) => {
+    console.log('[Debug] event:', event);
 
-import supabase from './db.js'; // 默认方式导入 Supabase 客户端
-// import { getTravels } from './db'; // 使用命名导入
-
-export default async function handler(req, res) {
-  const { method } = req;
-
-  if (method === 'GET') {
-    // 从路径参数中获取 ID
-
-    console.log('[Debug]: begin to watch req');
-    if(req)
-    {
-      console.log('[Debug]: watch req.query');
-
-      if(req.query)
-      {            
-        console.log('[Debug]: req.query[0]: ', req.query[0]);
-        // console.log('[Debug]: req.query.id: ', req.query.id);
-      }
-      else
-      {
-        console.error('[Debug Error]: ]req.query is null');
-      }
-    }
-    else
-    {
-      console.error('[Debug Error]: ]req is null');
-    }
-
-    const id = req.query[0]; // Debug: only get 0, 支持路径参数和查询参数
-    // const id = req.query.id || req.query[0]; // Vercel version: 支持路径参数和查询参数
-    console.log(`Received ID for query: ${id}`); // 调试信息
-
-    if (id) {
-      console.log(`Triggering single record query for ID: ${id}`); // 调试信息
-      try {
-        const { data, error } = await supabase
-          .from('travels')
-          .select('*')
-          .eq('id', id) // 根据 ID 查询
-          .single(); // 只获取一条记录
-
-        if (error) {
-          console.error('Database query failed:', error);
-          return res.status(500).json({ error: 'Database query failed', details: error });
+    // 解析请求体（如果是 POST/PUT 请求）
+    let body = {};
+    if (event.body) {
+        try {
+            body = JSON.parse(event.body);
+        } catch (err) {
+            console.error('[Debug Error]: Failed to parse request body:', err);
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ error: 'Invalid request body' }),
+            };
         }
-
-        if (data) {
-          return res.status(200).json(data);
-        } else {
-          return res.status(404).json({ error: 'Travel not found' });
-        }
-      } catch (err) {
-        console.error('Server error:', err);
-        res.status(500).json({ error: 'Internal server error', details: err.message });
-      }
-    } else {
-      // 获取所有差旅信息
-      try {
-        const { data, error } = await supabase.from('travels').select('*');
-
-        if (error) {
-          console.error('Database query failed:', error);
-          return res.status(500).json({ error: 'Database query failed', details: error });
-        }
-
-        res.status(200).json(data);
-      } catch (err) {
-        console.error('Server error:', err);
-        res.status(500).json({ error: 'Internal server error', details: err.message });
-      }
     }
-  } else if (method === 'POST') {
-    // 处理 POST 请求的逻辑（新增记录）
-    console.log('Received POST request to add new travel info'); // 调试信息
-    try {
-      const { data, error } = await supabase
-        .from('travels')
-        .insert([req.body]) // 插入新记录
-        .select(); // 返回插入的数据
 
-      if (error) {
-        console.error('Database insert failed:', error);
-        return res.status(500).json({ error: 'Database insert failed', details: error });
-      }
-
-      res.status(201).json({ message: 'Travel info added successfully', data });
-    } catch (err) {
-      console.error('Server error:', err);
-      res.status(500).json({ error: 'Internal server error', details: err.message });
-    }
-  } else if (method === 'PUT') {
-    // 处理 PUT 请求的逻辑（更新记录）
-    const id = req.query.id || req.query[0]; // 获取路径参数中的 ID
-    console.log(`Received ID for update: ${id}`); // 调试信息
-
-    if (!id) {
-      return res.status(400).json({ error: 'ID is required for update' });
-    }
+    // 解析查询参数（如果是 GET/DELETE 请求）
+    const query = event.queryStringParameters || {};
+    console.log('[Debug] query:', query);
 
     try {
-      const { data, error } = await supabase
-        .from('travels')
-        .update(req.body) // 更新请求体中的数据
-        .eq('id', id); // 根据 ID 更新
+        let data, error;
 
-      if (error) {
-        console.error('Database update failed:', error);
-        return res.status(500).json({ error: 'Database update failed', details: error });
-      }
+        // 根据请求方法执行不同的操作
+        switch (event.httpMethod) {
+            case 'GET':
+                // 查询旅行记录
+                if (query.command === 'get') {
+                    console.log('[Debug] get travels');
+                    ({ data, error } = await supabase
+                        .from('travels')
+                        .select('*')
+                        .eq('userid', query.userid));
+                }
+                break;
 
-      res.status(200).json({ message: 'Travel info updated successfully', data });
+            case 'POST':
+                // 插入旅行记录
+                if (query.command === 'insert') {
+                    console.log('[Debug] insert travel');
+                    ({ data, error } = await supabase
+                        .from('travels')
+                        .insert([
+                            {
+                                userid: query.userid,
+                                location: query.location,
+                                date: query.date,
+                                description: query.description,
+                            },
+                        ]));
+                }
+                break;
+
+            case 'PUT':
+                // 更新旅行记录
+                if (query.command === 'update') {
+                    console.log('[Debug] update travel');
+                    ({ data, error } = await supabase
+                        .from('travels')
+                        .update({ description: query.description })
+                        .eq('id', query.id));
+                }
+                break;
+
+            case 'DELETE':
+                // 删除旅行记录
+                if (query.command === 'delete') {
+                    console.log('[Debug] delete travel');
+                    ({ data, error } = await supabase
+                        .from('travels')
+                        .delete()
+                        .eq('id', query.id));
+                }
+                break;
+
+            default:
+                return {
+                    statusCode: 405,
+                    body: JSON.stringify({ error: 'Method not allowed' }),
+                };
+        }
+
+        // 处理错误
+        if (error) {
+            console.error('[Debug Error]:', error);
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ error: 'Database operation failed' }),
+            };
+        }
+
+        // 返回成功响应
+        return {
+            statusCode: 200,
+            body: JSON.stringify(data),
+        };
     } catch (err) {
-      console.error('Server error:', err);
-      res.status(500).json({ error: 'Internal server error', details: err.message });
+        console.error('[Debug Error]: Unexpected error:', err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: 'Internal server error' }),
+        };
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST', 'PUT']);
-    res.status(405).json({ message: `Method ${method} not allowed` });
-  }
-}
+};
