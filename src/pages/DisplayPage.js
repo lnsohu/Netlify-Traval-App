@@ -2,9 +2,54 @@ import React, { useEffect, useState } from 'react';
 import './DisplayPage.css';
 import TravelList from '../components/TravelList'; // 导入 TravelList 组件
 
+// [Debug]: Test db connection
+import supabase from '../netlify/functions/db'; // 导入 Supabase 客户端
+
 function DisplayPage() {
   const [travel, setTravel] = useState(null);
 
+  // [Debug Start] : 
+  // 测试数据库连接
+  const testSupabaseConnection = async () => {
+    try {
+      console.log('[debug]: Testing Supabase connection...');
+
+      // 查询 travels 表的结构（假设表中有数据）
+      const { data, error } = await supabase
+        .from('travels')
+        .select('*')
+        .limit(1); // 只查询一条记录，避免返回过多数据
+
+      if (error) {
+        console.error('Error fetching table structure:', error);
+        return false; // 返回 false 表示连接失败
+      }
+
+      if (data && data.length > 0) {
+        console.log('Travels table structure (first row):', data[0]);
+        return true; // 返回 true 表示连接成功
+      } else {
+        console.log('Travels table is empty.');
+        return true; // 返回 true 表示连接成功，但表为空
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      return false; // 返回 false 表示连接失败
+    }
+  };
+
+  // 获取最新一条差旅信息
+  const testFetchTravels = async () => {
+    try {
+      // 测试数据库连接
+      const isConnected = await testSupabaseConnection();
+      if (!isConnected) {
+        console.error('Database connection failed');
+        return;
+      }
+  // [Debug End]: Test db connection
+
+  
   // 获取最新一条差旅信息
   const fetchTravels = async () => {
     try {
