@@ -30,8 +30,8 @@ exports.handler = async (event) => {
           .single();
 
         if (error) {
-          console.error('Database query failed:', error);
-          return json(500, { error: 'Database query failed', details: error });
+          console.error('Database query failed:', error.message, error.details, error.cause);
+          return json(500, { error: 'Database query failed', details: error.message });
         }
 
         if (data) {
@@ -43,8 +43,8 @@ exports.handler = async (event) => {
       const { data, error } = await supabase.from('travels').select('*');
 
       if (error) {
-        console.error('Database query failed:', error);
-        return json(500, { error: 'Database query failed', details: error });
+        console.error('Database query failed:', error.message, error.details, error.cause);
+        return json(500, { error: 'Database query failed', details: error.message });
       }
 
       return json(200, data || []);
