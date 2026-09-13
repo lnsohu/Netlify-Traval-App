@@ -9,30 +9,19 @@ function DisplayPage() {
   const fetchTravels = async () => {
     try {
 
-      const debugSupabaseUrl = process.env.REACT_APP_supabase_db_SUPABASE_URL;
-      const debugSupabaseAnonKey = process.env.REACT_APP_supabase_db_NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      console.log('env debugSupabaseUrl: ',debugSupabaseUrl);
-      console.log('env debugSupabaseAnonKey: ',debugSupabaseAnonKey);
-      
-      let response;
-      try{
-        response= await fetch('/.netlify/functions/travels', {
+      const response = await fetch('/api/travels', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        });
-        }
-      catch (error) {
-      console.error('[debug] fetch netlify/functions/travels:', error);
-        
-    }
-      console.log('[debug] response is: ',response);
-      
+      });
+
       if (response.ok) {
         const data = await response.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          console.error('No travel records returned');
+          return;
+        }
         const sortedTravels = data.sort((a, b) => new Date(b.outbound_flight_date) - new Date(a.outbound_flight_date));
-        const latestTravel = sortedTravels[0];
-        setTravel(latestTravel);
+        setTravel(sortedTravels[0]);
       } else {
         console.error('Failed to fetch travels');
       }
